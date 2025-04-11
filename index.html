@@ -7,35 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Formulaire de Contact</h1>
-    <form id="contactForm">
-        <div class="form-group">
-            <label for="prenom">Prénom*</label>
-            <input type="text" id="prenom" required>
-            <div id="prenomError" class="error"></div>
-        </div>
+    <div class="container">
+        <h1>Contactez-nous</h1>
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="prenom">Prénom*</label>
+                <input type="text" id="prenom" required>
+                <div id="prenomError" class="error-message"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="nom">Nom*</label>
-            <input type="text" id="nom" required>
-            <div id="nomError" class="error"></div>
-        </div>
+            <div class="form-group">
+                <label for="nom">Nom*</label>
+                <input type="text" id="nom" required>
+                <div id="nomError" class="error-message"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="telephone">Téléphone*</label>
-            <input type="tel" id="telephone" required>
-            <div id="telephoneError" class="error"></div>
-        </div>
+            <div class="form-group">
+                <label for="telephone">Téléphone*</label>
+                <input type="tel" id="telephone" required>
+                <div id="telephoneError" class="error-message"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="email">Email*</label>
-            <input type="email" id="email" required>
-            <div id="emailError" class="error"></div>
-        </div>
+            <div class="form-group">
+                <label for="email">Email*</label>
+                <input type="email" id="email" required>
+                <div id="emailError" class="error-message"></div>
+            </div>
 
-        <button type="submit">Envoyer</button>
-    </form>
-    <div id="message" class="success"></div>
+            <button type="submit">Envoyer</button>
+        </form>
+        <div id="serverMessage" class="server-response"></div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
