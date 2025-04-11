@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Formulaire de Contact</h1>
+    <form id="contactForm">
+        <div class="form-group">
+            <label for="prenom">Prénom*</label>
+            <input type="text" id="prenom" required>
+            <div id="prenomError" class="error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="nom">Nom*</label>
+            <input type="text" id="nom" required>
+            <div id="nomError" class="error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="telephone">Téléphone*</label>
+            <input type="tel" id="telephone" required>
+            <div id="telephoneError" class="error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email*</label>
+            <input type="email" id="email" required>
+            <div id="emailError" class="error"></div>
+        </div>
+
+        <button type="submit">Envoyer</button>
+    </form>
+    <div id="message" class="success"></div>
+    <script src="script.js"></script>
+</body>
+</html>
