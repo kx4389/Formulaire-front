@@ -1,51 +1,62 @@
 document.getElementById("contactForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     
-    // Réinitialiser les erreurs
-    document.querySelectorAll(".error").forEach(el => el.textContent = "");
-    
-    // Récupérer les données
-    const prenom = document.getElementById("prenom").value;
-    const nom = document.getElementById("nom").value;
-    const telephone = document.getElementById("telephone").value;
-    const email = document.getElementById("email").value;
-    
-    // Validation
+    // Reset des messages
+    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+    const serverMsg = document.getElementById("serverMessage");
+    serverMsg.className = "server-response";
+    serverMsg.textContent = '';
+
+    // Récupération des données
+    const formData = {
+        prenom: document.getElementById("prenom").value.trim(),
+        nom: document.getElementById("nom").value.trim(),
+        telephone: document.getElementById("telephone").value.trim(),
+        email: document.getElementById("email").value.trim()
+    };
+
+    // Validation côté client
     let isValid = true;
-    if (prenom.length < 2) {
-        document.getElementById("prenomError").textContent = "Le prénom est trop court !";
-        isValid = false;
-    }
-    if (nom.length < 2) {
-        document.getElementById("nomError").textContent = "Le nom est trop court !";
-        isValid = false;
-    }
-    if (telephone.length < 8) {
-        document.getElementById("telephoneError").textContent = "Numéro invalide !";
-        isValid = false;
-    }
-    if (!email.includes("@")) {
-        document.getElementById("emailError").textContent = "Email invalide !";
+    
+    if (formData.prenom.length < 2) {
+        document.getElementById("prenomError").textContent = "Minimum 2 caractères";
         isValid = false;
     }
     
-    // Envoi au backend si valide
-    if (isValid) {
-        try {
-            const response = await fetch("https://formulaire-back-v12y.onrender.com/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prenom, nom, telephone, email })
-            });
-            
-            if (response.ok) {
-                document.getElementById("message").textContent = "Merci ! Données enregistrées.";
-                document.getElementById("contactForm").reset();
-            } else {
-                throw new Error("Erreur du serveur");
-            }
-        } catch (error) {
-            document.getElementById("message").textContent = "Erreur : " + error.message;
+    if (!/^\+?[\d\s]{10,15}$/.test(formData.telephone)) {
+        document.getElementById("telephoneError").textContent = "Format invalide";
+        isValid = false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        document.getElementById("emailError").textContent = "Email invalide";
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    // Envoi au serveur
+    try {
+        const response = await fetch("https://votre-api.onrender.com/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Erreur serveur");
         }
+
+        // Succès
+        serverMsg.className = "server-response success";
+        serverMsg.textContent = "Message envoyé avec succès!";
+        document.getElementById("contactForm").reset();
+
+    } catch (error) {
+        console.error("Erreur:", error);
+        serverMsg.className = "server-response error";
+        serverMsg.textContent = error.message || "Erreur de connexion au serveur";
     }
 });
